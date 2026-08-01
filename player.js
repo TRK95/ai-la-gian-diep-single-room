@@ -1,3 +1,4 @@
+(() => {
 "use strict";
 
 const { connectGame, setMessage, formatFirebaseError } = window.GameShared;
@@ -200,3 +201,4 @@ function render() {
 }
 
 init();
+})();
