@@ -1,0 +1,32 @@
+{
+  "rules": {
+    ".read": false,
+    ".write": false,
+    "single-room": {
+      "ownerUid": {
+        ".read": "auth != null",
+        ".write": "auth != null && ((!data.exists() && newData.val() === auth.uid) || data.val() === auth.uid)"
+      },
+      "public": {
+        ".read": "auth != null",
+        ".write": "auth != null && root.child('single-room/ownerUid').val() === auth.uid"
+      },
+      "players": {
+        ".read": "auth != null && root.child('single-room/ownerUid').val() === auth.uid",
+        "$uid": {
+          ".read": "auth != null && (auth.uid === $uid || root.child('single-room/ownerUid').val() === auth.uid)",
+          ".write": "auth != null && (root.child('single-room/ownerUid').val() === auth.uid || (auth.uid === $uid && root.child('single-room/public/status').val() !== 'started'))",
+          ".validate": "!newData.exists() || (newData.hasChildren(['name', 'joinedAt', 'online']) && newData.child('name').isString() && newData.child('name').val().length > 0 && newData.child('name').val().length <= 40 && newData.child('joinedAt').isNumber() && newData.child('online').isBoolean())"
+        }
+      },
+      "assignments": {
+        ".read": "auth != null && root.child('single-room/ownerUid').val() === auth.uid",
+        "$uid": {
+          ".read": "auth != null && (auth.uid === $uid || root.child('single-room/ownerUid').val() === auth.uid)",
+          ".write": "auth != null && root.child('single-room/ownerUid').val() === auth.uid",
+          ".validate": "!newData.exists() || (newData.hasChildren(['role', 'word', 'roundNumber', 'assignedAt']) && (newData.child('role').val() === 'civilian' || newData.child('role').val() === 'spy' || newData.child('role').val() === 'third') && newData.child('word').isString() && newData.child('roundNumber').isNumber() && newData.child('assignedAt').isNumber())"
+        }
+      }
+    }
+  }
+}

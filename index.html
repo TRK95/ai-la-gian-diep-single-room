@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#11131a" />
+  <title>Ai là gián điệp? — Tham gia</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <main class="page player-page">
+    <header class="brand compact">
+      <p class="eyebrow">MỘT PHÒNG DUY NHẤT</p>
+      <h1>Ai là gián điệp?</h1>
+      <p class="subtitle">Nhập tên để tham gia. Khi quản trò bắt đầu, vai trò và từ bí mật sẽ xuất hiện trên chính thiết bị này.</p>
+    </header>
+
+    <section id="loadingView" class="panel centered-panel">
+      <div class="spinner" aria-hidden="true"></div>
+      <h2>Đang kết nối phòng…</h2>
+      <p class="muted">Bạn chỉ cần chờ trong giây lát.</p>
+    </section>
+
+    <section id="joinView" class="panel is-hidden">
+      <div class="section-title">
+        <div>
+          <p class="step-label">THAM GIA</p>
+          <h2>Nhập tên của bạn</h2>
+        </div>
+        <span id="joinStatusBadge" class="status-badge waiting">Đang chờ</span>
+      </div>
+
+      <label for="playerName">Tên hiển thị</label>
+      <input id="playerName" type="text" maxlength="40" autocomplete="name" placeholder="Ví dụ: Đức Lương" />
+      <p class="hint">Mỗi người nên dùng một thiết bị hoặc một trình duyệt riêng.</p>
+
+      <button id="joinBtn" class="btn btn-primary btn-large full-width" type="button">Tham gia phòng</button>
+      <div id="joinMessage" class="message" aria-live="polite"></div>
+    </section>
+
+    <section id="lobbyView" class="panel is-hidden">
+      <div class="section-title">
+        <div>
+          <p class="step-label">ĐÃ THAM GIA</p>
+          <h2 id="welcomeName">Xin chào!</h2>
+        </div>
+        <span class="status-badge waiting">Đang chờ</span>
+      </div>
+
+      <div class="lobby-visual" aria-hidden="true">
+        <div class="pulse-ring"><span>?</span></div>
+      </div>
+      <h3 class="center-text">Chờ quản trò bắt đầu ván</h3>
+      <p id="lobbyText" class="center-text muted">Bạn đã vào phòng. Không cần tải lại trang.</p>
+
+      <div class="mini-stats">
+        <div><span>Người tham gia</span><strong id="publicPlayerCount">—</strong></div>
+        <div><span>Trạng thái</span><strong>Chờ bắt đầu</strong></div>
+      </div>
+
+      <button id="leaveBtn" class="btn btn-secondary full-width" type="button">Rời phòng</button>
+      <div id="lobbyMessage" class="message" aria-live="polite"></div>
+    </section>
+
+    <section id="secretView" class="panel secret-panel is-hidden">
+      <div class="section-title">
+        <div>
+          <p class="step-label">VÁN <span id="roundNumber">1</span></p>
+          <h2 id="secretGreeting">Vai trò của bạn</h2>
+        </div>
+        <span id="connectionBadge" class="status-badge live">Đã bắt đầu</span>
+      </div>
+
+      <div id="secretCover" class="secret-cover">
+        <div class="lock-icon">🔒</div>
+        <h3>Nội dung đang được che</h3>
+        <p class="muted">Đảm bảo không ai đang nhìn màn hình của bạn.</p>
+        <button id="revealSecretBtn" class="btn btn-primary btn-large" type="button">Xem vai trò và từ</button>
+      </div>
+
+      <div id="secretContent" class="secret-content is-hidden" aria-live="polite">
+        <div id="roleBadge" class="big-role-badge">PHE NGƯỜI</div>
+        <p class="word-label">Từ bí mật của bạn</p>
+        <div id="secretWord" class="secret-word">Cà phê</div>
+        <p id="roleInstruction" class="role-instruction"></p>
+        <button id="hideSecretBtn" class="btn btn-dark btn-large full-width" type="button">Che lại</button>
+      </div>
+
+      <p class="safety-note">Không chụp hoặc gửi màn hình cho người khác. Quản trò điều hành phần mô tả, tranh luận và bỏ phiếu ở ngoài đời.</p>
+    </section>
+
+    <section id="errorView" class="panel is-hidden">
+      <p class="step-label">KHÔNG THỂ KẾT NỐI</p>
+      <h2>Cần hoàn tất cấu hình</h2>
+      <p id="fatalError" class="muted"></p>
+      <p class="hint">Xem hướng dẫn trong file <strong>README.md</strong>.</p>
+    </section>
+
+    <footer>
+      <a href="host.html">Trang dành cho quản trò</a>
+    </footer>
+  </main>
+
+  <script src="https://www.gstatic.com/firebasejs/12.9.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/12.9.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/12.9.0/firebase-database-compat.js"></script>
+  <script src="firebase-config.js"></script>
+  <script src="shared.js"></script>
+  <script src="player.js"></script>
+</body>
+</html>

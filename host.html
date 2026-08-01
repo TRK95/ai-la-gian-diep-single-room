@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#11131a" />
+  <title>Ai là gián điệp? — Quản trò</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <main class="page host-page">
+    <header class="brand">
+      <div>
+        <p class="eyebrow">BẢNG QUẢN TRÒ · MỘT PHÒNG</p>
+        <h1>Ai là gián điệp?</h1>
+        <p class="subtitle">Mọi người vào trang chính, nhập tên và chờ. Quản trò chọn bộ từ, số lượng phe rồi bắt đầu ván.</p>
+      </div>
+      <a class="btn btn-secondary" href="index.html" target="_blank" rel="noopener">Mở trang người chơi</a>
+    </header>
+
+    <section id="hostLoading" class="panel centered-panel">
+      <div class="spinner" aria-hidden="true"></div>
+      <h2>Đang kết nối quyền quản trò…</h2>
+    </section>
+
+    <section id="claimView" class="panel is-hidden">
+      <p class="step-label">QUYỀN QUẢN TRÒ</p>
+      <h2>Phòng chưa có quản trò</h2>
+      <p class="muted">Thiết bị này có thể nhận quyền quản trò cho phòng duy nhất.</p>
+      <button id="claimHostBtn" class="btn btn-primary btn-large" type="button">Nhận quyền quản trò</button>
+      <div id="claimMessage" class="message" aria-live="polite"></div>
+    </section>
+
+    <section id="lockedView" class="panel is-hidden">
+      <p class="step-label">PHÒNG ĐANG ĐƯỢC QUẢN LÝ</p>
+      <h2>Một thiết bị khác đang là quản trò</h2>
+      <p class="muted">Hãy mở lại đúng trình duyệt đã nhận quyền quản trò. Nếu thiết bị cũ không còn dùng được, xóa trường <code>ownerUid</code> trong Firebase Realtime Database.</p>
+    </section>
+
+    <div id="dashboard" class="is-hidden">
+      <section class="metrics-grid">
+        <article class="metric-card">
+          <span>Người tham gia</span>
+          <strong id="playerCountMetric">0</strong>
+        </article>
+        <article class="metric-card">
+          <span>Trạng thái</span>
+          <strong id="statusMetric">Đang chờ</strong>
+        </article>
+        <article class="metric-card">
+          <span>Ván hiện tại</span>
+          <strong id="roundMetric">0</strong>
+        </article>
+      </section>
+
+      <section class="panel">
+        <div class="section-title">
+          <div>
+            <p class="step-label">THIẾT LẬP VÁN</p>
+            <h2>Chọn từ và phân bổ phe</h2>
+          </div>
+          <span id="roomStatusBadge" class="status-badge waiting">Đang chờ</span>
+        </div>
+
+        <div class="settings-grid">
+          <div>
+            <label for="presetSelect">Bộ từ có sẵn</label>
+            <select id="presetSelect"></select>
+            <div id="presetPreview" class="preset-preview"></div>
+          </div>
+
+          <div>
+            <div class="count-grid">
+              <div>
+                <label for="spyCount">Số gián điệp</label>
+                <input id="spyCount" type="number" min="1" value="5" inputmode="numeric" />
+              </div>
+              <div>
+                <label for="thirdCount">Số phe thứ ba</label>
+                <input id="thirdCount" type="number" min="1" value="2" inputmode="numeric" />
+              </div>
+            </div>
+            <div class="role-count-preview">
+              <span>Phe người</span>
+              <strong id="civilianCountPreview">0</strong>
+            </div>
+          </div>
+        </div>
+
+        <details class="custom-box">
+          <summary>Tự nhập bộ từ khác</summary>
+          <div class="custom-grid">
+            <label>Chủ đề<input id="customTheme" type="text" placeholder="Ví dụ: Đồ ăn" /></label>
+            <label>Phe người<input id="customCivilian" type="text" placeholder="Ví dụ: Phở" /></label>
+            <label>Gián điệp<input id="customSpy" type="text" placeholder="Ví dụ: Bún bò" /></label>
+            <label>Phe thứ ba<input id="customThird" type="text" placeholder="Ví dụ: Mì quảng" /></label>
+          </div>
+          <button id="useCustomBtn" class="btn btn-secondary" type="button">Dùng bộ từ tự nhập</button>
+        </details>
+
+        <div class="action-row">
+          <button id="startGameBtn" class="btn btn-primary btn-large" type="button">Bắt đầu và chia từ</button>
+          <button id="newRoundBtn" class="btn btn-secondary" type="button">Ván mới, giữ người chơi</button>
+        </div>
+        <div id="gameMessage" class="message" aria-live="polite"></div>
+      </section>
+
+      <section class="panel">
+        <div class="section-title">
+          <div>
+            <p class="step-label">DANH SÁCH</p>
+            <h2>Người chơi trong phòng</h2>
+          </div>
+          <button id="copyLinkBtn" class="btn btn-secondary" type="button">Sao chép link tham gia</button>
+        </div>
+
+        <div id="emptyPlayers" class="empty-state">
+          <div class="empty-icon">👥</div>
+          <h3>Chưa có người chơi</h3>
+          <p class="muted">Gửi đường dẫn trang chính cho mọi người.</p>
+        </div>
+
+        <div id="playerTableWrap" class="table-wrap is-hidden">
+          <table>
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Tên</th>
+                <th>Trạng thái</th>
+                <th>Phe</th>
+                <th>Từ</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody id="playerTable"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="panel danger-zone">
+        <p class="step-label">QUẢN LÝ PHÒNG</p>
+        <h2>Đặt lại hoặc chuyển quản trò</h2>
+        <div class="action-row">
+          <button id="clearPlayersBtn" class="btn btn-danger" type="button">Xóa toàn bộ người chơi</button>
+          <button id="releaseHostBtn" class="btn btn-secondary" type="button">Nhường quyền quản trò</button>
+        </div>
+      </section>
+    </div>
+
+    <section id="hostErrorView" class="panel is-hidden">
+      <p class="step-label">KHÔNG THỂ KẾT NỐI</p>
+      <h2>Cần hoàn tất cấu hình</h2>
+      <p id="hostFatalError" class="muted"></p>
+      <p class="hint">Xem hướng dẫn trong file <strong>README.md</strong>.</p>
+    </section>
+  </main>
+
+  <script src="https://www.gstatic.com/firebasejs/12.9.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/12.9.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/12.9.0/firebase-database-compat.js"></script>
+  <script src="firebase-config.js"></script>
+  <script src="shared.js"></script>
+  <script src="host.js"></script>
+</body>
+</html>
