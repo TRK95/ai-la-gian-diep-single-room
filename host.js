@@ -258,16 +258,38 @@ async function startGame() {
 }
 
 async function prepareNewRound() {
+  elements.newRoundBtn.disabled = true;
+  setMessage(elements.gameMessage, "Đang kết thúc ván và mở lại phòng…", "info");
+
   try {
-    await rootRef.child("assignments").remove();
-    await rootRef.child("public").update({
-      status: "waiting",
-      playerCount: Object.keys(players).length,
-      updatedAt: firebase.database.ServerValue.TIMESTAMP
+    // Do not call assignments.remove() at the parent path. Older Firebase rules
+    // only grant write access at assignments/$uid, so deleting the parent is denied.
+    // A single multi-location update is atomic and works with both old and new rules.
+    const updates = {
+      "public/status": "waiting",
+      "public/playerCount": Object.keys(players).length,
+      "public/theme": null,
+      "public/spyCount": null,
+      "public/thirdCount": null,
+      "public/startedAt": null,
+      "public/updatedAt": firebase.database.ServerValue.TIMESTAMP
+    };
+
+    Object.keys(assignments).forEach((uid) => {
+      updates[`assignments/${uid}`] = null;
     });
-    setMessage(elements.gameMessage, "Đã chuyển về phòng chờ. Người chơi được giữ nguyên.", "success");
+
+    await rootRef.update(updates);
+    assignments = {};
+    setMessage(
+      elements.gameMessage,
+      "Đã kết thúc ván. Phòng đã mở lại và giữ nguyên danh sách người chơi.",
+      "success"
+    );
   } catch (error) {
     setMessage(elements.gameMessage, formatFirebaseError(error), "error");
+  } finally {
+    elements.newRoundBtn.disabled = false;
   }
 }
 
@@ -348,18 +370,37 @@ async function copyJoinLink() {
 
 async function clearPlayers() {
   if (!window.confirm("Xóa toàn bộ người chơi và kết quả hiện tại?")) return;
+
+  elements.clearPlayersBtn.disabled = true;
+  setMessage(elements.gameMessage, "Đang đặt lại phòng…", "info");
+
   try {
-    await rootRef.child("players").remove();
-    await rootRef.child("assignments").remove();
-    await rootRef.child("public").set({
-      status: "waiting",
-      roundNumber: 0,
-      playerCount: 0,
-      updatedAt: firebase.database.ServerValue.TIMESTAMP
+    const updates = {
+      "public/status": "waiting",
+      "public/roundNumber": 0,
+      "public/playerCount": 0,
+      "public/theme": null,
+      "public/spyCount": null,
+      "public/thirdCount": null,
+      "public/startedAt": null,
+      "public/updatedAt": firebase.database.ServerValue.TIMESTAMP
+    };
+
+    Object.keys(players).forEach((uid) => {
+      updates[`players/${uid}`] = null;
     });
-    setMessage(elements.gameMessage, "Đã xóa toàn bộ người chơi.", "success");
+    Object.keys(assignments).forEach((uid) => {
+      updates[`assignments/${uid}`] = null;
+    });
+
+    await rootRef.update(updates);
+    players = {};
+    assignments = {};
+    setMessage(elements.gameMessage, "Đã xóa toàn bộ người chơi và đưa phòng về trạng thái chờ.", "success");
   } catch (error) {
     setMessage(elements.gameMessage, formatFirebaseError(error), "error");
+  } finally {
+    elements.clearPlayersBtn.disabled = false;
   }
 }
 
