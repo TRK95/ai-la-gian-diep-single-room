@@ -1,3 +1,4 @@
+(() => {
 "use strict";
 
 window.GAME_PRESETS = [
@@ -124,3 +125,4 @@ window.GameShared = {
   formatFirebaseError,
   isFirebaseConfigured
 };
+})();
