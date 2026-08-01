@@ -1,3 +1,4 @@
+(() => {
 "use strict";
 
 const {
@@ -372,3 +373,4 @@ async function releaseHost() {
 }
 
 init();
+})();
