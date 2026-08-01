@@ -1,5 +1,4 @@
-// Dán cấu hình Firebase Web App của bạn vào đây.
-// Firebase Console -> Project settings -> Your apps -> SDK setup and configuration.
+// Firebase configuration for the single shared room.
 window.FIREBASE_CONFIG = {
   apiKey: "AIzaSyDWQrYLXreV4km9tZ_pVLxOxi_PWG5p25M",
   authDomain: "ailagiandiep-f7257.firebaseapp.com",
@@ -11,5 +10,5 @@ window.FIREBASE_CONFIG = {
   measurementId: "G-68TJCZ3W9E"
 };
 
-// Toàn bộ trang web chỉ sử dụng đúng một phòng cố định.
+// The website uses exactly one fixed room.
 window.GAME_ROOT = "single-room";
