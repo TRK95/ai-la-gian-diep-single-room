@@ -2,21 +2,21 @@
 "use strict";
 
 window.GAME_PRESETS = [
-  { id: 1, theme: "Đồ uống", civilian: "Cà phê", spy: "Trà sữa", third: "Nước cam" },
-  { id: 2, theme: "Phương tiện", civilian: "Xe buýt", spy: "Tàu điện", third: "Máy bay" },
-  { id: 3, theme: "Đồ ăn nhanh", civilian: "Bánh mì", spy: "Hamburger", third: "Pizza" },
-  { id: 4, theme: "Địa điểm", civilian: "Thư viện", spy: "Nhà sách", third: "Bảo tàng" },
-  { id: 5, theme: "Thiết bị", civilian: "Điện thoại", spy: "Máy tính bảng", third: "Laptop" },
-  { id: 6, theme: "Thiên nhiên", civilian: "Biển", spy: "Hồ", third: "Sông" },
-  { id: 7, theme: "Nghề nghiệp", civilian: "Bác sĩ", spy: "Y tá", third: "Dược sĩ" },
-  { id: 8, theme: "Thể thao", civilian: "Bóng đá", spy: "Bóng rổ", third: "Bóng chuyền" },
-  { id: 9, theme: "Thời tiết", civilian: "Mưa", spy: "Tuyết", third: "Sương mù" },
-  { id: 10, theme: "Giải trí", civilian: "Rạp phim", spy: "Nhà hát", third: "Sân khấu ca nhạc" },
-  { id: 11, theme: "Du lịch", civilian: "Khách sạn", spy: "Nhà nghỉ", third: "Khu cắm trại" },
-  { id: 12, theme: "Động vật", civilian: "Chó", spy: "Sói", third: "Cáo" },
-  { id: 13, theme: "Trường học", civilian: "Giảng đường", spy: "Phòng họp", third: "Phòng thí nghiệm" },
-  { id: 14, theme: "Không gian", civilian: "Mặt Trời", spy: "Mặt Trăng", third: "Ngôi sao" },
-  { id: 15, theme: "Đồ dùng ngày mưa", civilian: "Ô", spy: "Áo mưa", third: "Ủng" }
+  { id: 1, theme: "Đồ uống", civilian: "Cà phê", third: "Trà sữa", spy: "Nước cam" },
+  { id: 2, theme: "Phương tiện", civilian: "Xe buýt", third: "Tàu điện", spy: "Máy bay" },
+  { id: 3, theme: "Đồ ăn nhanh", civilian: "Bánh mì", third: "Hamburger", spy: "Pizza" },
+  { id: 4, theme: "Địa điểm", civilian: "Thư viện", third: "Nhà sách", spy: "Bảo tàng" },
+  { id: 5, theme: "Thiết bị", civilian: "Điện thoại", third: "Máy tính bảng", spy: "Laptop" },
+  { id: 6, theme: "Thiên nhiên", civilian: "Biển", third: "Hồ", spy: "Sông" },
+  { id: 7, theme: "Nghề nghiệp", civilian: "Bác sĩ", third: "Y tá", spy: "Dược sĩ" },
+  { id: 8, theme: "Thể thao", civilian: "Bóng đá", third: "Bóng rổ", spy: "Bóng chuyền" },
+  { id: 9, theme: "Thời tiết", civilian: "Mưa", third: "Tuyết", spy: "Sương mù" },
+  { id: 10, theme: "Giải trí", civilian: "Rạp phim", third: "Nhà hát", spy: "Sân khấu ca nhạc" },
+  { id: 11, theme: "Du lịch", civilian: "Khách sạn", third: "Nhà nghỉ", spy: "Khu cắm trại" },
+  { id: 12, theme: "Động vật", civilian: "Chó", third: "Sói", spy: "Cáo" },
+  { id: 13, theme: "Trường học", civilian: "Giảng đường", third: "Phòng họp", spy: "Phòng thí nghiệm" },
+  { id: 14, theme: "Không gian", civilian: "Mặt Trời", third: "Mặt Trăng", spy: "Ngôi sao" },
+  { id: 15, theme: "Đồ dùng ngày mưa", civilian: "Ô", third: "Áo mưa", spy: "Ủng" }
 ];
 
 window.ROLE_INFO = {
